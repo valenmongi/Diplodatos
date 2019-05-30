@@ -8,15 +8,19 @@ Alumnos: Ayala, Simón
          Mongi, Valentín Nicolás
 
 
-
 #  Dataset in https://archive.ics.uci.edu/ml/datasets/Wine
+Se utilizara un set con datos de 178 vinos de 3 clases distintas (59 de la 1, 71 de la 2 y 48 de la 3). La clase del vino se indica en la primera columna, y el resto de las columnas contienen datos como el porcentaje de alcohol, de acido malico, magensio, etc. Todas estas caracteristicas son de caracter continuo.
+
+```{r}
 
 set.seed(0)
 data=read.table("https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data",sep=",")
 data_sc=data
 
+```
 
 #  Funcion de normalizacion con valores maximos y minimos
+```{r}
 
 normalize <- function(x) {
   return ((x-min(x))/(max(x)-min(x)))
@@ -24,12 +28,16 @@ normalize <- function(x) {
 
 #  Normalizacion de las variables, excepto las clases
 
-data[,2:14]=lapply(data[,2:14],normalize)
-data_sc[,2:14]=lapply(data_sc[,2:14],scale)
+data[,2:14]=lapply(data[,2:14],normalize) # Normalizacion con min y max
+data_sc[,2:14]=lapply(data_sc[,2:14],scale) # Normalizacion z score
+```
 
 # K MEANS
+```{r}
 
 k=c(1,3,5,8,11,15,18,21,25) # Vector con los distintos k a probar
+
+```
 
 
 ```{r}
@@ -54,10 +62,15 @@ El metaparámetro K que mejor ajusta los features es 3 y bajo un proceso de norm
 Bajo un proceso de normalización de los parámetros siguiendo el criterio Min-Max, se obtuvo un 95,5% de los valores representados en la diagonal principal utilizando un K=15.
 
 # Mixturas Gaussianas
+```{r}
+
+
 library(mclust)
 
 mcl.model <- Mclust(data[, c(1:14)], 3)
 mcl.model_sc <- Mclust(data_sc[, c(1:14)], 3)
+
+```
 
 
 ```{r}
